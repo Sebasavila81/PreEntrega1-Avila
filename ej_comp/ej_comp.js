@@ -145,3 +145,13 @@ if(producto1 != "" && producto2 != "" && producto3 != "" && producto4 != ""){
 else{
     "Error: es necesario cargar todos los productos"
 } */
+/* Actividad 1*/
+/* Solicitar al usuario un (1) un número y un (1) texto. Efectuar una salida por alerta con el mensaje ingresado por cada repetición, hasta alcanzar el valor señalado por el usuario.
+Cuando decimos “por cada repetición”, estamos señalando la necesidad de emplear ciclos. Si el ciclo está condicionado por un número de repeticiones, se usa for.
+ */
+/* let numero = prompt("Ingrese la cantidad de repeticiones");
+let texto = prompt("ingrese un texto a repetir");
+
+for(let i = 0; i < numero; i = i + 1){
+    alert(texto);
+} */
