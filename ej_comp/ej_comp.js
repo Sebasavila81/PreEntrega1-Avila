@@ -155,3 +155,63 @@ let texto = prompt("ingrese un texto a repetir");
 for(let i = 0; i < numero; i = i + 1){
     alert(texto);
 } */
+/* Actividad 2*/
+/* Solicitar al usuario un (1) número. Emplear este valor para determinar la cantidad de repeticiones, y efectuar una salida por alerta con el mensaje “lado” en cada repetición. Pero si se alcanza un número de iteraciones mayor que cuatro (4), cancelar el ciclo.
+Es importante distinguir entre el número máximo de repeticiones de un for. y un condicional cuyo cumplimiento puede provocar la interrupción del bucle (con break). */
+/* let lados = prompt("Ingrese cantidad de lados");
+for(i = 0; i < lados ; i = i + 1){
+    if(lados > 3){
+        break;
+    }
+    alert("lado");
+    
+} */
+/* Actividad 3*/
+/* let alumnos = "";
+for(i = 0 ; i < 10 ; i = i + 1){
+    alumnos += prompt("INGRESAR NOMBRE DE ALUMNO")+"\n";
+}
+alert(alumnos); */
+/* Actividad 4*/
+/* let entrada = prompt("Ingrese un nombre");
+let ingresados = "";
+while(entrada != "Voldemort"){
+    ingresados += entrada +"\n";
+    entrada = prompt("Ingrese un nombre");
+    
+}
+alert(ingresados); */
+/* Actividad 5*/
+/* Solicitar al usuario un (1) número de forma consecutiva, hasta que se ingrese “ESC”. Generar una única salida compuesta por los siguientes productos, según el valor ingresado en cada ciclo:
+“Tomate” si es 1.
+“Papa” si es 2.
+“Carne” si es 3.
+“Pollo” si es 4.
+Es importante distinguir entre el valor de la entrada que asegura la repetición (entrada != “ESC”), y los posibles valores de la entrada que disparan un procesamiento (1,2,3 y 4). */
+
+let producto = prompt("Ingrese un numero del 1 al 4 o ESC para salir");
+
+while (producto !== "ESC") {
+    producto = parseInt(producto);
+    if (producto === 1) {
+        alert("Tomate");
+        
+    }
+    else if (producto === 2) {
+        alert("Papa");
+        
+    }
+    else if (producto === 3) {
+        alert("Carne");
+        
+    }
+    else if (producto === 4) {
+        alert("Pollo");
+        
+    }
+    else{
+        alert("Error");
+    }
+    producto = parseInt(prompt("Ingrese un numero del 1 al 4"));
+}
+alert("Hasta luego");
