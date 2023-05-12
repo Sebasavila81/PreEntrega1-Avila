@@ -189,7 +189,7 @@ alert(ingresados); */
 “Pollo” si es 4.
 Es importante distinguir entre el valor de la entrada que asegura la repetición (entrada != “ESC”), y los posibles valores de la entrada que disparan un procesamiento (1,2,3 y 4). */
 
-let producto = prompt("Ingrese un numero del 1 al 4 o ESC para salir");
+/* let producto = prompt("Ingrese un numero del 1 al 4 o ESC para salir");
 
 while (producto !== "ESC") {
     producto = parseInt(producto);
@@ -214,4 +214,145 @@ while (producto !== "ESC") {
     }
     producto = parseInt(prompt("Ingrese un numero del 1 al 4"));
 }
-alert("Hasta luego");
+alert("Hasta luego"); */
+/* Actividad 1*/
+
+/* function entrada(){
+    let nombre = prompt("Ingrese su nombre");
+    return nombre
+}
+function transformacion(nombre){
+    nombre = "mi nombre es: " + nombre;
+    return nombre
+}
+function salida(nombre){
+    console.log(nombre);
+}
+
+let nombreEntrada = entrada()
+let entradaTransformada = transformacion(nombreEntrada)
+salida(entradaTransformada)
+
+salida(transformacion(entrada())); */
+
+/* Actividad 2*/
+
+/* let decimal = 10.5
+let redondeo = Math.round(decimal)
+
+console.log(redondeo) */
+
+/* function redondeo(decimal){
+    return Math.round(decimal);
+}
+for(i = 0 ; i < 5 ; i++){
+    let decimal = prompt("Ingrese un numero decimal");
+    console.log(redondeo(decimal));
+}
+ */
+/* Actividad 3*/
+/* function impuesto(precio, porcentaje){
+    return precio +(precio * (porcentaje/100));
+   
+
+    
+}
+
+for(i = 0 ; i < 5 ; i++){
+    let precio =parseInt(prompt("ingrecio el precio"));
+    let porcentaje = parseInt(prompt("Ingrese porcentaje"));
+    console.log(impuesto(precio, porcentaje));
+} */
+
+/* Actividad 4*/
+/* Una función cotizarDolar(pesos), la cual recibe un valor monetario en pesos argentinos, y lo retorna en su equivalente en dólares.
+Una función cotizarPesos(dolar), que recibe un valor monetario en dólares, y lo retorna en su equivalente en pesos argentinos.
+Luego invocar las funciones solicitando  al usuario el valor y el tipo de cotización a realizar.
+ */
+/* let cotizacion = 480;
+
+function cotizarDolar(pesos){
+    dolar = pesos * cotizacion;
+    return dolar;
+}
+function cotizarPesos(dolar){
+    pesos = dolar / cotizacion;
+    return pesos;
+}
+let valor = prompt("ingrese un valor");
+let moneda = prompt("Ingrese una moneda");
+if(moneda == "dolar"){
+console.log(cotizarDolar(valor))
+}
+else{
+    console.log(cotizarPesos(valor))
+}
+
+const COTIZACION_DOLAR = 150;
+
+const cotizarDolar = (pesos) => pesos / COTIZACION_DOLAR;
+
+function cotizarDolar (pesos) { 
+    return pesos / COTIZACION_DOLAR;
+} */
+/* Actividad 5*/
+/* Codificar una función con la siguiente cabecera: validacion(cadena). En ella, se retorna un valor booleano, el cual es true si el parámetro no es un cadena vacía. Caso contrario, se retorna false. Luego invocar la función de forma iterativa, hasta que el usuario tipee “ESC”, solicitando en cada ciclo una cadena a validar.
+Es común emplear funciones para validar si un valor recibido por parámetro cumple con cierto formato. La comparación de cadena vacía es (cadena != ‘’) */
+
+/* function validacion(cadena){
+    return cadena != "";
+    
+}
+let entrada = prompt("Ingreses cadena");
+while( entrada != "ESC"){
+    alert(validacion(entrada));
+    entrada = prompt("Ingreses cadena");
+} */
+/* Actividad 1*/
+/* Declarar un clase Tienda que permita registrar:
+Nombre de la tienda.
+Dirección de la tienda.
+Propietario de la tienda.
+Rubro de la tienda.
+Luego invocar al menos tres (3) objetos usando esta clase.
+Por cada dato a registrar en un objeto, corresponde una propiedad. Recordemos que la invocación del objeto es instanciarlo usando new y el constructor.
+ */
+/* class Tienda {
+    constructor(nombre, direccion, propietario, rubro) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.propietario = propietario;
+        this.rubro = rubro;
+
+    }
+} */
+/* let tienda1 = new Tienda ("carlitos", "av los incas 3232", "juan", "almacen");
+let tienda2 = new Tienda ("josesito", "av los incas 4343", "armando", "kiosko");
+let tienda3 = new Tienda ("ricardo", "av los incas 5252", "Juan", "verduleria");
+
+console.log(tienda1);
+console.log(tienda2);
+console.log(tienda3); */
+
+class Tienda {
+    constructor(nombre, direccion, propietario, rubro) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.propietario = propietario;
+        this.rubro = rubro;
+
+    }
+}
+let ingresados = '';
+for (let index = 0; index < 5; index++) {
+    let tienda = new Tienda(prompt("NOMBRE"),
+        prompt("DIRECCION"),
+        prompt("PROPIETARIO"),
+        prompt("RUBRO"));
+
+    ingresados += "Tienda: " + tienda.nombre + " " +
+        "Direccion: " + tienda.direccion + " " +
+        "Propitario: " + tienda.propietario + " " +
+        "rubro: " + tienda.rubro + "\n";
+}
+alert(ingresados);
