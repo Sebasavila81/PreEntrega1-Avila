@@ -334,7 +334,7 @@ console.log(tienda1);
 console.log(tienda2);
 console.log(tienda3); */
 
-class Tienda {
+/* class Tienda {
     constructor(nombre, direccion, propietario, rubro) {
         this.nombre = nombre;
         this.direccion = direccion;
@@ -355,4 +355,4 @@ for (let index = 0; index < 5; index++) {
         "Propitario: " + tienda.propietario + " " +
         "rubro: " + tienda.rubro + "\n";
 }
-alert(ingresados);
+alert(ingresados); */
