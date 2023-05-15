@@ -362,7 +362,7 @@ alert(ingresados); */
 Emplear la clase Tienda de la actividad 1, para instanciar los objetos en función de las entradas capturadas. Generar una única salida compuesta por la información de los objetos instanciados.
 Es posible instanciar objetos de forma local en un bloque, y los valores pasados por parámetro al constructor pueden ser capturados desde una llamada prompt. */
 
-class Tienda {
+/* class Tienda {
     constructor(nombre, direccion, propietario, rubro) {
         this.nombre = nombre;
         this.direccion = direccion;
@@ -374,10 +374,98 @@ class Tienda {
 let ingresados = ""
 for(i = 0 ; i < 5 ; i++){
     let tienda1 = new Tienda (prompt("Ingrese nombre"), 
-                                ("Ingrese direccion"),
-                                ("Ingrese propietario"), 
-                                ("Ingrese Rubro"));
+                                prompt("Ingrese direccion"),
+                                prompt("Ingrese propietario"), 
+                                prompt("Ingrese Rubro"));
 
-    ingresados += 
+    ingresados = ingresados + "\n nombre: "+ tienda1.nombre + "direccion" + tienda1.direccion + "propietario: " + tienda1.propietario + "rubro : " + tienda1.rubro;
 
+}
+alert(ingresados); */
+/* Actividad 3*/
+/* Declarar un método para la clase Tienda con la siguiente cabecera estaAbierto(hora). Este retorna true si la hora enviada está entre las 08 y 12, o entre las 15 y 19. Caso contrario, se retorna false.
+Luego invocar al menos un (1) objeto usando esta clase, y solicitar al usuario tres (3) horas. Informar por alerta si la tienda está abierta, en función de la hora ingresada.
+Considerando que por prompt sólo podemos ingresar cadenas, se sugiere asumir que se trabaja sólo con horas en punto, de 0 a 22. El if debe verificar dos intervalos válidos.
+ */
+/* class Tienda {
+    constructor(nombre, direccion, propietario, rubro) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.propietario = propietario;
+        this.rubro = rubro;
+
+    }
+    estaAbierto(hora){
+        if(hora >= 8 && hora <= 12 || hora >= 15 && hora <= 19) {
+            return true;
+
+        }
+        else{
+            return false;
+        }
+    }
+}    
+let tienda1 = new Tienda("Seba" , "Av. de los Incas 3232" , "Juan" , "Kiosko");
+for(i = 0 ; i < 3 ; i++){
+    let horario = parseInt(prompt("Ingrese hora"));
+    if(tienda1.estaAbierto(horario)){
+        alert("Abierto");
+    }
+    else{
+        alert("Cerrado");
+    }
+} */
+/* Actividad 4*/
+/* Declarar un método para la clase Tienda con la siguiente cabecera esPropietario(nombre). Se retorna true si el nombre enviado corresponde al propietario de la tienda.Caso contrario, se retorna false.
+Luego, invocar al menos tres(3) objetos usando esta clase y solicitar al usuario cinco(5) nombres. Informar por alerta si los nombres pertenecen a algún dueño de tienda.
+Es común emplear métodos de clase para validar si un valor recibido por parámetro es igual al valor de una propiedad del objeto. Se llama el método por cada objeto creado */
+
+/* class Tienda {
+    constructor(nombre, direccion, propietario, rubro) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.propietario = propietario;
+        this.rubro = rubro;
+
+    }
+    esPropietario(nombre) {
+        if (nombre == this.propietario) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+let tienda1 = new Tienda("Seba", "Av. de los Incas 3232", "Juan", "Kiosko");
+let tienda2 = new Tienda("Luis", "Callao 67", "Pepe", "Almacen");
+let tienda3 = new Tienda("Marce", "Rivadavia 12", "Nelson", "Verduleria");
+
+for (i = 0; i < 5; i++) {
+
+    let propietario = prompt("Ingrese un nombre");
+    if (propietario == tienda1.propietario || propietario == tienda2.propietario || propietario == tienda3.propietario) {
+        alert("Es dueño");
+    }
+    else {
+        alert("no es dueño");
+    }
+} */
+/* Actividad 5*/
+class Cliente {
+    constructor(nombre, presupuesto, terjetaDesc, telefono){
+        this.nombre = nombre;
+        this.presupuesto = presupuesto;
+        this.terjetaDesc = terjetaDesc;
+        this.telefono = telefono;
+    }
+    transferirDinero(valor) {
+        if(valor < this.presupuesto && valor > 0){
+            return this.presupuesto - valor;
+        }
+        else{
+            return false;
+
+        }
+    }
 }
