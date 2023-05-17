@@ -452,7 +452,7 @@ for (i = 0; i < 5; i++) {
     }
 } */
 /* Actividad 5*/
-class Cliente {
+/* class Cliente {
     constructor(nombre, presupuesto, terjetaDesc, telefono){
         this.nombre = nombre;
         this.presupuesto = presupuesto;
@@ -468,4 +468,91 @@ class Cliente {
 
         }
     }
+} */
+/* Actividad 1*/
+/* Declarar un array de cadenas, compuesto por  los cuatro (4) nombres pertenecientes a los integrantes de un equipo. Luego recorrer el array, e informar por alerta el nombre de cada jugador, así como la posición  que ocupa en la colección.
+Cuando recorremos un array, empleamos un bucle (preferentemente un for o for...of) para acceder a los elementos de la colección uno a uno. */
+
+/* let equipo = ["Moe", "Homero", "Sr. Berns", "Apu"];
+console.log(equipo);
+for(let miembro of equipo){
+    console.log(miembro);
+} */
+/* Actividad 2*/
+/* Declarar un array vacío, y cargarlo de forma dinámica solicitando al usuario nombres de forma consecutiva,  hasta que se ingrese “ESC”. Luego recorrer el array, e informar por alerta el nombre de cada jugador, así como la posición  que ocupa en la colección.
+Usando while  y prompt podemos cargar una colección de forma dinámica. Es decir, agregar al array en cada iteración la entrada capturada, usando el método push */
+/* let equipo = [];
+let nombre = prompt("Ingrese un nombre");
+while(nombre != "ESC"){
+    equipo.push(nombre);
+    nombre = prompt("Ingrese un nombre");
+
+
 }
+for(i = 0 ; i < equipo.length ; i++){
+    alert("El nombre es: " + equipo[i] + "la posicion es: " + i);
+} */
+/* Actividad 3*/
+
+/* Declarar una clase Jugador que permita registrar nombre, número de camiseta, edad, y si está lesionado. Luego instanciar al menos cinco (5) objetos usando esta clase, y asociarlos a un array. */
+
+
+/* class jugador {
+    constructor (nombre, numeroCamiseta, edad, lesionado){
+        this.nombre = nombre;
+        this.numeroCamiseta = numeroCamiseta;
+        this.edad = edad;
+        this.lesionado = lesionado;
+    }
+}
+let jugadores= [];
+
+jugadores.push(new jugador("carlos", 2, 42, false));
+jugadores.push(new jugador("perci", 5, 33, false));
+jugadores.push(new jugador("alex", 4, 42, true));
+jugadores.push(new jugador("mauro", 8, 37, false));
+jugadores.push(new jugador("leo", 1, 48, true));
+
+console.log(jugadores); */
+/* Actividad 4*/
+/* Codificar una función con la siguiente cabecera: buscarJugador(equipo, jugador). En ella, se recibe por parámetro un array de jugadores (objetos instanciados empleando la clase de la actividad 3), y el nombre de un jugador. La función retorna el jugador que coincide con el nombre.
+Realizar al menos tres (3) búsquedas solicitando el nombre al usuario, e informar sobre el resultado de cada búsqueda. */
+
+/* function buscarJugador(equipo, jugador) {
+    let resultado = equipo.find(
+        function buscarRecorrido(obj){
+            if(obj==jugador){
+                return obj
+            }
+        }
+
+    )
+}
+
+class jugador {
+    constructor(nombre, numeroCamiseta, edad, lesionado) {
+        this.nombre = nombre;
+        this.numeroCamiseta = numeroCamiseta;
+        this.edad = edad;
+        this.lesionado = lesionado;
+    }
+}
+let equipo = []
+equipo.push(new jugador("carlos", 2, 42, false));
+equipo.push(new jugador("perci", 5, 33, false));
+equipo.push(new jugador("alex", 4, 42, true));
+equipo.push(new jugador("mauro", 8, 37, false));
+equipo.push(new jugador("leo", 1, 48, true));
+
+buscarJugador(equipo, 'carlos')
+
+console.log(resultado);
+
+function buscar_usuario( obj_usuario ){
+
+    if(obj_usuario == "Marta"){
+    return obj_usuario
+    }
+}
+
+buscar_usuario("seba") */
