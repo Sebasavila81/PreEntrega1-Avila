@@ -1,5 +1,5 @@
-/* SALUDO */
-console.log("Bienvenido a Izsla Hostel");
+
+
 /* VARIABLES */
 let cantidadHuespedes = 0;
 let diasReserva = 0;
@@ -8,12 +8,20 @@ let esArgentino = 0;
 let descuentoPorcentaje = 0;
 let montoDesc = 0;
 /* FUNCIONES */
+
+/* FUCNION PARA SALUDAR */
+function Saludar(){
+    let nombre = prompt("Ingrese su nombre")
+    alert("Bienvenido/a: "+ nombre + " a Izsla Hotel");
+}
+
+/* FUNCION PARA CALCULAR EL TOTAL DE LA RESERVA */
 function totalReserva(diasReserva, cantidadHuespedes) {
     let total = diasReserva * cantidadHuespedes * precioPorDia;
     montoDesc = total * descuentoPorcentaje;
     return total - montoDesc;
 }
-
+/* FUNCION QUE LE PIDE AL USUARIO DATOS */
 function preguntarUsuario() {
 
     while (cantidadHuespedes <= 0) {
@@ -34,7 +42,7 @@ function preguntarUsuario() {
         }
     }
 }
-
+/* FUNCION PARA CALCULAR EL DESCUENTO POR SER ARGENTINA */
 function descuento() {
     while (esArgentino != "SI" && esArgentino != "NO") {
         esArgentino = prompt("Ingrese SI o NO si es Argentino");
@@ -50,11 +58,11 @@ function descuento() {
     }
 
 }
-
-
+/* INICIO DEL PROGRAMA*/
+Saludar();
 preguntarUsuario();
 
-console.log("Se realizo la reserva por: ", diasReserva, "dias");
-console.log("para: ", cantidadHuespedes, "personas");
+alert("Se realizo la reserva por: "+ diasReserva + " dias");
+alert("para: "+ cantidadHuespedes+ " personas");
 descuento();
-console.log("El total de la reserva es: $", totalReserva(diasReserva, cantidadHuespedes));
+alert("El total de la reserva es: $ "+ totalReserva(diasReserva, cantidadHuespedes));
