@@ -1,68 +1,108 @@
+//Creo la clase para listar las habitaciones//
+class Habitacion {
+    constructor(nombre, precio, camas) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.camas = camas;
 
+    }
+    //metodo para mostrar las habitaciones//
+    getDatos() {
+        console.log("<---------------->");
+        console.log("Nombre : ", this.nombre);
+        console.log("Precio : ", this.precio);
+        console.log("Cantidad de camas : ", this.camas);
+        console.log("");
+    }
+    //Metodo para saber si hay camas disponibles//
+    getCamas() {
+        if (this.camas <= 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    //Metodo para hacer la reserva de la cama y actualizar la dispo
+    reservaCama(cantHuespedes) {
+        if (this.camas >= cantHuespedes) {
+            this.camas = this.camas - cantHuespedes;
+            return true;
 
-/* VARIABLES */
-let cantidadHuespedes = 0;
-let diasReserva = 0;
-let precioPorDia = 10;
-let esArgentino = 0;
-let descuentoPorcentaje = 0;
-let montoDesc = 0;
-/* FUNCIONES */
-
-/* FUCNION PARA SALUDAR */
-function Saludar(){
+        }
+        else {
+            return false;
+        }
+    }
+    //Metodo para calcular el costo de la Reserva//
+    calcularCostoReserva(cantHuespedes) {
+        return this.precio * cantHuespedes;
+    }
+}
+//Funcion para Saludar
+function Saludar() {
     let nombre = prompt("Ingrese su nombre")
-    alert("Bienvenido/a: "+ nombre + " a Izsla Hotel");
+    alert("Bienvenido/a: " + nombre + " a Izsla Hotel");
+}
+//Funcion para buscar el nombre de la Habitacion//
+function buscarHabitacion(habitacion) {
+    return habitacion.nombre === reservaHuesped
+}
+//Variables Globales
+let listaHabitaciones = [];
+
+//Creo las instancias de Habitaciones//
+listaHabitaciones.push(new Habitacion("Mixta", 10, 20));
+listaHabitaciones.push(new Habitacion("Femenina", 15, 10));
+listaHabitaciones.push(new Habitacion("Privada", 50, 5));
+
+//Se saluda al usuario con su nombre//
+Saludar();
+
+//Se muestra la lista de Habitaciones para reservar//
+console.log("Habitaciones Disponibles");
+
+for (let habitaciones of listaHabitaciones) {
+    habitaciones.getDatos();
 }
 
-/* FUNCION PARA CALCULAR EL TOTAL DE LA RESERVA */
-function totalReserva(diasReserva, cantidadHuespedes) {
-    let total = diasReserva * cantidadHuespedes * precioPorDia;
-    montoDesc = total * descuentoPorcentaje;
-    return total - montoDesc;
-}
-/* FUNCION QUE LE PIDE AL USUARIO DATOS */
-function preguntarUsuario() {
+let reservaHuesped = prompt("Ingrese el nombre de la habitacion donde quiere reservar cama");
 
-    while (cantidadHuespedes <= 0) {
-        cantidadHuespedes = parseInt(prompt("Ingrese la cantidad de personas que se van a hospedar en Izsla Hostel"));
+let resultadoBusqueda = listaHabitaciones.find(buscarHabitacion);
 
-        if (isNaN(cantidadHuespedes) || cantidadHuespedes <= 0) {
-            alert("Debe ingresar un número mayor a 0. Por favor, inténtelo de nuevo.");
-            cantidadHuespedes = 0;
+if (resultadoBusqueda) {
+
+    if (resultadoBusqueda.getCamas()) {
+        let cantHuespedes = parseInt(prompt("Para cuantos huespedes desea reservar cama en esa habitacion"));
+        if (isNaN(cantHuespedes)) {
+            console.log("Ingrese un numero valido para la cantidad de huespedes");
         }
-    }
-
-    while (diasReserva <= 0) {
-        diasReserva = parseInt(prompt("Ingrese la cantidad de dias que desees hospedarse en Izsla Hostel"));
-
-        if (isNaN(diasReserva) || diasReserva <= 0) {
-            alert("Debe ingresar un número mayor a 0. Por favoer, Inténtelo de nuevo.");
-            diasReserva = 0;
+        else if (cantHuespedes > 0) {
+            if (resultadoBusqueda.reservaCama(cantHuespedes)) {
+                let costoReserva = resultadoBusqueda.calcularCostoReserva(cantHuespedes);
+                console.log(`Gracias por reservar ${cantHuespedes} camas de la habitación ${resultadoBusqueda.nombre}`);
+                console.log(`El costo total de la reserva es: ${costoReserva}`);
+            }
+            else {
+                console.log("No se puede realizar la reserva");
+                console.log("Tenemos :", resultadoBusqueda.camas);
+            }
         }
-    }
-}
-/* FUNCION PARA CALCULAR EL DESCUENTO POR SER ARGENTINA */
-function descuento() {
-    while (esArgentino != "SI" && esArgentino != "NO") {
-        esArgentino = prompt("Ingrese SI o NO si es Argentino");
-    }
-    if (esArgentino == "SI") {
-        descuentoPorcentaje = 0.1;
-        console.log("Por ser Argentino tiene un descuento del: %", descuentoPorcentaje * 100);
+
+
 
     }
     else {
-        descuentoPorcentaje = 0;
-
+        console.log("No tenemos camas dispoinibles en: ", resultadoBusqueda.nombre);
     }
 
 }
-/* INICIO DEL PROGRAMA*/
-Saludar();
-preguntarUsuario();
+else {
+    console.log("No se encontro la habitacion: ", reservaHuesped);
+}
+console.log("");
+console.log("Habitaciones Disponibles");
 
-alert("Se realizo la reserva por: "+ diasReserva + " dias");
-alert("para: "+ cantidadHuespedes+ " personas");
-descuento();
-alert("El total de la reserva es: $ "+ totalReserva(diasReserva, cantidadHuespedes));
+for (let habitaciones of listaHabitaciones) {
+    habitaciones.getDatos();
+}
