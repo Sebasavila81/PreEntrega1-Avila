@@ -8,11 +8,13 @@ class Habitacion {
     }
     //metodo para mostrar las habitaciones//
     getDatos() {
-        console.log("<---------------->");
-        console.log("Nombre : ", this.nombre);
-        console.log("Precio : ", this.precio);
-        console.log("Cantidad de camas : ", this.camas);
-        console.log("");
+        let disponibilidad = `
+\n<---------------->
+Nombre :  ${this.nombre}
+Precio :  ${this.precio}
+Cantidad de camas :  ${this.camas}
+`;
+        return disponibilidad;
     }
     //Metodo para saber si hay camas disponibles//
     getCamas() {
@@ -39,70 +41,73 @@ class Habitacion {
         return this.precio * cantHuespedes;
     }
 }
+
 //Funcion para Saludar
 function Saludar() {
     let nombre = prompt("Ingrese su nombre")
     alert("Bienvenido/a: " + nombre + " a Izsla Hotel");
 }
-//Funcion para buscar el nombre de la Habitacion//
-function buscarHabitacion(habitacion) {
-    return habitacion.nombre === reservaHuesped
-}
+
 //Variables Globales
 let listaHabitaciones = [];
-
+let finalizar = false
 //Creo las instancias de Habitaciones//
 listaHabitaciones.push(new Habitacion("Mixta", 10, 20));
 listaHabitaciones.push(new Habitacion("Femenina", 15, 10));
 listaHabitaciones.push(new Habitacion("Privada", 50, 5));
 
 //Se saluda al usuario con su nombre//
-Saludar();
+let habitacionesDisponibles = []
 
-//Se muestra la lista de Habitaciones para reservar//
-console.log("Habitaciones Disponibles");
+while (!finalizar) {
+    Saludar();
 
-for (let habitaciones of listaHabitaciones) {
-    habitaciones.getDatos();
-}
 
-let reservaHuesped = prompt("Ingrese el nombre de la habitacion donde quiere reservar cama");
+    //Se muestra la lista de Habitaciones para reservar//
+    for (let habitaciones of listaHabitaciones) {
+        habitacionesDisponibles.push(habitaciones.getDatos());
+    }
 
-let resultadoBusqueda = listaHabitaciones.find(buscarHabitacion);
+    let reservaHuesped = prompt("Ingrese el nombre de la habitacion donde quiere reservar cama.\n" + "Habitaciones disponibles:" + habitacionesDisponibles);
 
-if (resultadoBusqueda) {
+    let resultadoBusqueda = listaHabitaciones.find((habitacion) => habitacion.nombre === reservaHuesped);
+    if (resultadoBusqueda) {
 
-    if (resultadoBusqueda.getCamas()) {
-        let cantHuespedes = parseInt(prompt("Para cuantos huespedes desea reservar cama en esa habitacion"));
-        if (isNaN(cantHuespedes)) {
-            console.log("Ingrese un numero valido para la cantidad de huespedes");
-        }
-        else if (cantHuespedes > 0) {
-            if (resultadoBusqueda.reservaCama(cantHuespedes)) {
-                let costoReserva = resultadoBusqueda.calcularCostoReserva(cantHuespedes);
-                console.log(`Gracias por reservar ${cantHuespedes} camas de la habitación ${resultadoBusqueda.nombre}`);
-                console.log(`El costo total de la reserva es: ${costoReserva}`);
+        if (resultadoBusqueda.getCamas()) {
+            let cantHuespedes = parseInt(prompt("Para cuantos huespedes desea reservar cama en esa habitacion"));
+            if (isNaN(cantHuespedes)) {
+                console.log("Ingrese un numero valido para la cantidad de huespedes");
             }
-            else {
-                console.log("No se puede realizar la reserva");
-                console.log("Tenemos :", resultadoBusqueda.camas);
+            else if (cantHuespedes > 0) {
+                if (resultadoBusqueda.reservaCama(cantHuespedes)) {
+                    let costoReserva = resultadoBusqueda.calcularCostoReserva(cantHuespedes);
+                    console.log(`Gracias por reservar ${cantHuespedes} camas de la habitación ${resultadoBusqueda.nombre}`);
+                    console.log(`El costo total de la reserva es: ${costoReserva}`);
+                }
+                else {
+                    console.log("No se puede realizar la reserva");
+                    console.log("Tenemos :", resultadoBusqueda.camas);
+                }
             }
+
+
+
         }
-
-
+        else {
+            console.log("No tenemos camas dispoinibles en: ", resultadoBusqueda.nombre);
+        }
 
     }
     else {
-        console.log("No tenemos camas dispoinibles en: ", resultadoBusqueda.nombre);
+        console.log("No se encontro la habitacion: ", reservaHuesped);
     }
 
-}
-else {
-    console.log("No se encontro la habitacion: ", reservaHuesped);
-}
-console.log("");
-console.log("Habitaciones Disponibles");
-
-for (let habitaciones of listaHabitaciones) {
-    habitaciones.getDatos();
+    for (let habitaciones of listaHabitaciones) {
+        habitaciones.getDatos();
+    }
+    continuar = prompt("¿Desea continuar reservando? Ingrese SI o NO.")
+    if (continuar == 'NO') {
+        finalizar = true
+    }
+    habitacionesDisponibles = []
 }
