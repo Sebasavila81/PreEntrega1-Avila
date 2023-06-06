@@ -111,3 +111,12 @@ while (!finalizar) {
     }
     habitacionesDisponibles = []
 }
+ let titulo = document.getElementById("titulo_principal");
+console.log(titulo);
+console.log(titulo.innerText);
+
+
+let nombre_usuario = document.getElementById ("nombre_usuario");
+nombre_usuario.value = "pepe"
+
+
