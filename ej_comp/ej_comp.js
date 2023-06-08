@@ -556,11 +556,11 @@ function buscar_usuario( obj_usuario ){
 }
 
 buscar_usuario("seba") */
-function ordenar(lista, fruta)
+/* function ordenar(lista, fruta)
 {
 lista.push(fruta);
 }
 var frutas = new Array("manzana","naranja","pera");
 console.log(frutas);
 ordenar (frutas, "uvas");
-console.log(frutas);
+console.log(frutas); */

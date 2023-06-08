@@ -45,19 +45,26 @@ function agregar_producto() {
     let lista = document.getElementById("lista");
     
 } */
+
+
 function agregarProducto() {
-    // Obtener el valor del producto ingresado
-    var producto = document.getElementById("producto").value;
 
-    // Crear un nuevo elemento de lista
-    var nuevoElemento = document.createElement("li");
-    var textoProducto = document.createTextNode(producto);
-    nuevoElemento.appendChild(textoProducto);
-
-    // Agregar el nuevo elemento a la lista
-    var lista = document.getElementById("lista");
-    lista.appendChild(nuevoElemento);
-
-    // Limpiar el campo de entrada
+    let producto = document.getElementById("producto").value;
+    let lista = document.getElementById("lista");
+    let li = document.createElement("li");
+    li.innerText = producto; 
+    lista.appendChild(li);
     document.getElementById("producto").value = "";
+    console.log(lista.innerHTML)
+    console.log(lista)
+
+    
+    
+    
+    
+   
+
+
+    
+  
 }
