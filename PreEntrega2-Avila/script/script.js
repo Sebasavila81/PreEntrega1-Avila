@@ -1,4 +1,4 @@
-//Creo la clase para listar las habitaciones//
+/* //Creo la clase para listar las habitaciones//
 class Habitacion {
     constructor(nombre, precio, camas) {
         this.nombre = nombre;
@@ -117,6 +117,6 @@ console.log(titulo.innerText);
 
 
 let nombre_usuario = document.getElementById ("nombre_usuario");
-nombre_usuario.value = "pepe"
+nombre_usuario.value = "pepe" */
 
 
