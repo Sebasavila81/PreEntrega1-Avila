@@ -55,8 +55,6 @@ function agregarProducto() {
     li.innerText = producto; 
     lista.appendChild(li);
     document.getElementById("producto").value = "";
-    console.log(lista.innerHTML)
-    console.log(lista)
 
     
     
