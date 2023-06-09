@@ -12,7 +12,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Sass/main.css">
+    <link rel="stylesheet" href="./styles/style.css">
     <title>Habitaciones</title>
 
 </head>
@@ -23,7 +23,7 @@
         <!-- NAVBAR -->
         <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="../index.html">
+                <a class="navbar-brand" href="./index.html">
                     <img src="./imagenes/logo-izsla.png" alt="logo-izsla" width="40" height="40">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -166,9 +166,20 @@
                                 viajan en pareja. Tiene aire acondicionado, ropa de cama y artículos de
                                 tocador. A su vez, en la terraza podrá disfrutar de la piscina para refrescarse y
                                 descansar
-                                bajo el sol.</p>
+                                bajo el sol.
+                            </p>
+                            
                         </div>
                     </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary" id="reservaMixta">RESERVAR</button>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary">RESERVAR</button>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary">RESERVAR</button>
                 </div>
             </div>
             <!-- FORM para reserva -->
@@ -184,7 +195,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <label class="visually-hidden" for="datepicker-entrada">SALIDA</label>
+                    <label class="visually-hidden" for="datepicker-salida">SALIDA</label>
                     <div class="input-group">
                         <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i></div>
                         <input type="text" class="form-control" id="datepicker-salida" placeholder="salida">
@@ -205,12 +216,30 @@
 
 
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">RESERVAR</button>
+                    <button type="submit" class="btn btn-primary" id="boton-reserva">RESERVAR</button>
                 </div>
             </form>
 
         </div>
     </main>
+    <div class="container" id="reserva">
+        <h2>Reserva</h2>
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <td></td>       
+              <td>Habitacion</td>
+              <td>Cantidad Camas</td>
+              <td>Precio</td>
+              <td></td>             
+            </tr>
+          </thead>
+          <tbody id="tbody">
+          
+          </tbody>
+        </table>
+
+      </div>
 
     <!-- FOOTER -->
     <div class="container-fluid text-center bg-dark">
@@ -282,6 +311,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
         integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous">
         </script>
+    <script src="script/script.js"></script>
 
 </body>
 

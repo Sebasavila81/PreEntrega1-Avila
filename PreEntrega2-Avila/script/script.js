@@ -119,4 +119,43 @@ console.log(titulo.innerText);
 let nombre_usuario = document.getElementById ("nombre_usuario");
 nombre_usuario.value = "pepe" */
 
+let habitaciones = [
+    {nombre: "mixta", camas: 20 , precio: 10  }, 
+    {nombre: "femenina", camas: 10 , precio: 12 },
+    {nombre: "privada" , camas: 4 , precio: 50}
+];
+let habitacionElegida 
 
+function asignarHab(e){
+    habitacionElegida = e.target.id;
+}
+
+//
+let carrito = []
+
+//con esta función vamos a comprobar la disponibilidad de la habitación
+function comprobarDisponibilidad(tipo, entrada, salida, camas){
+console.log(tipo, entrada, salida, camas)
+}
+
+//una vez comprobada, podemos agregar la reserva al carrito
+function agregarHabitacionCarrito(){
+}
+
+function realizarReserva (){
+    let reservaHabMixta = document.querySelector("#reservaMixta");
+    reservaHabMixta.addEventListener("click", asignarHab);
+
+    let fechaEntrada = document.querySelector("#datepicker-entrada");
+    //pasar los nodos fechaSalida, cantCamas, y botonReserva a variables
+    let botonReserva = document.querySelector('#boton-reserva')
+
+    //una vez se aprieta el botón, comprobamos la disponibilida da la base
+    //de datos
+    botonReserva.addEventListener('click', (e) => {
+        e.preventDefault()
+        const habDisponible = comprobarDisponibilidad(habitacionElegida, fechaEntrada.value, 0, 0)
+    })
+}
+
+realizarReserva();
