@@ -92,7 +92,9 @@
   .card-title {
     display: none;
   }
-  
+  .displayForm {
+    display: none;
+  }
   
   @media (max-width: 768px) {
     

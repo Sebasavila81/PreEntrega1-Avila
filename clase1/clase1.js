@@ -329,14 +329,14 @@ let btn_carrito = document.getElementById("mostrar_carrito");
 
 btn_carrito.addEventListener("click" , function(){
 
-    let carrito = document.getElementById("carrito");
+    let formFechas = document.querySelector(".displayForm");
 
-    if( carrito.style.display != "none"){
+    if( formFechas.style.display != "none"){
 
-        carrito.style.display = "none";
+        formFechas.style.display = "none";
     }
     else{
-        carrito.style.display = "block";
+        formFechas.style.display = "block";
     }
 
 

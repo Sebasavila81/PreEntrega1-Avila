@@ -41,7 +41,8 @@
 
                     </div> -->
                     <span class="navbar-text d-flex align-items-center justify-content-center">
-                        <img class="mx-1" src="./imagenes/band-mexico.jpg" alt="bandera-mexico" width="16px" height="12px">
+                        <img class="mx-1" src="./imagenes/band-mexico.jpg" alt="bandera-mexico" width="16px"
+                            height="12px">
                         <a>es</a>
                         <div class="vr ms-1"></div>
                         <img class="mx-1" src="./imagenes/band-eeuu.jpg" alt="bandera-eeuu" width="16px" height="12px">
@@ -92,7 +93,8 @@
 
             </div>
             <div class="mt-5">
-                <p class= "lead text-center"> Un viaje inicia desde el momento que te imaginas en otro lugar, desde que sientes la necesidad de
+                <p class="lead text-center"> Un viaje inicia desde el momento que te imaginas en otro lugar, desde que
+                    sientes la necesidad de
                     salir
                     de tu zona de confort para explorar más y empiezas tu primera búsqueda online. Imaginate convivir,
                     generar nuevos vínculos, intercambiar historias, conocimientos y vivencias con personas de todo el
@@ -168,78 +170,82 @@
                                 descansar
                                 bajo el sol.
                             </p>
-                            
+
                         </div>
                     </div>
                 </div>
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary" id="reservaMixta">RESERVAR</button>
+                    <button type="submit" class="btn btn-primary btnFechas" id="reservaFemenina">RESERVAR</button>
                 </div>
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary">RESERVAR</button>
+                    <button type="submit" class="btn btn-primary btnFechas" id="reservaMixta">RESERVAR</button>
                 </div>
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary">RESERVAR</button>
+                    <button type="submit" class="btn btn-primary btnFechas" id="reservaPrivada">RESERVAR</button>
                 </div>
             </div>
             <!-- FORM para reserva -->
-            <form
-                action="https://www.booking.com/hotel/mx/la-izsla-playa-del-carmen.es.html?aid=376374&label=esrow-OtlvhU2CXhSVxek50Z_17wS267754636760%3Apl%3Ata%3Ap1%3Ap22.563.000%3Aac%3Aap%3Aneg%3Afi%3Atikwd-65526620%3Alp1000073%3Ali%3Adec%3Adm%3Appccp%3DUmFuZG9tSVYkc2RlIyh9YcUSe6BbHz0Ad_yDShFFSHQ&sid=0944b610855ca1d6846ecd9340bce8e9&all_sr_blocks=892831802_359585399_1_0_0%2C892831802_359585399_1_0_0;checkin=2023-04-17;checkout=2023-04-18;dest_id=-1689065;dest_type=city;dist=0;group_adults=2;group_children=0;hapos=1;highlighted_blocks=892831802_359585399_1_0_0%2C892831802_359585399_1_0_0;hpos=1;matching_block_id=892831802_359585399_1_0_0;no_rooms=1;req_adults=2;req_children=0;room1=A%2CA;sb_price_type=total;sr_order=popularity;sr_pri_blocks=892831802_359585399_1_0_0__23400%2C892831802_359585399_1_0_0__23400;srepoch=1681397210;srpvid=fc7a67ec659d01c8;type=total;ucfs=1&#hotelTmpl"
-                target="_blank"
-                class="d-flex justify-content-center mt-5 mb-5 row row-cols-lg-auto g-3 align-items-center">
-                <div class="col-12">
-                    <label class="visually-hidden" for="datepicker-entrada">ENTRADA</label>
-                    <div class="input-group">
-                        <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i></div>
-                        <input type="text" class="form-control" id="datepicker-entrada" placeholder="entrada">
+            <div class="displayForm">
+                <form target="_blank"
+                    class="d-flex justify-content-center mt-5 mb-5 row row-cols-lg-auto g-3 align-items-center">
+                    <div class="col-12">
+                        <label class="visually-hidden" for="datepicker-entrada">ENTRADA</label>
+                        <div class="input-group">
+                            <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i></div>
+                            <input type="text" class="form-control" id="datepicker-entrada" placeholder="entrada">
+                        </div>
                     </div>
-                </div>
-                <div class="col-12">
-                    <label class="visually-hidden" for="datepicker-salida">SALIDA</label>
-                    <div class="input-group">
-                        <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i></div>
-                        <input type="text" class="form-control" id="datepicker-salida" placeholder="salida">
+                    <div class="col-12">
+                        <label class="visually-hidden" for="datepicker-salida">SALIDA</label>
+                        <div class="input-group">
+                            <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i></div>
+                            <input type="text" class="form-control" id="datepicker-salida" placeholder="salida">
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-12">
-                    <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
-                    <div class="input-group">
-                        <div class="input-group-text"><i class="fa-solid fa-person"></i></div>
-                        <select class="form-select" id="inlineFormSelectPref">
-                            <option value="1"> 1 persona</option>
-                            <option value="2">2 personas</option>
-                            <option value="3">3 personas</option>
-                        </select>
+                    <div class="col-12">
+                        <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+                        <div class="input-group">
+                            <div class="input-group-text"><i class="fa-solid fa-person"></i></div>
+                            <select class="form-select" id="inlineFormSelectPref">
+                                <option value="1"> 1 persona</option>
+                                <option value="2">2 personas</option>
+                                <option value="3">3 personas</option>
+                                <option value="4">4 personas</option>
+                                <option value="5">5 personas</option>
+                                <option value="6">6 personas</option>
+                                <option value="7">7 personas</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
 
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary" id="boton-reserva">RESERVAR</button>
-                </div>
-            </form>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary" id="boton-reserva">RESERVAR</button>
+                    </div>
+                </form>
+            </div>
 
         </div>
     </main>
     <div class="container" id="reserva">
         <h2>Reserva</h2>
         <table class="table table-dark">
-          <thead>
-            <tr>
-              <td></td>       
-              <td>Habitacion</td>
-              <td>Cantidad Camas</td>
-              <td>Precio</td>
-              <td></td>             
-            </tr>
-          </thead>
-          <tbody id="tbody">
-          
-          </tbody>
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>Habitacion</td>
+                    <td>Cantidad Camas</td>
+                    <td>Precio</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
         </table>
 
-      </div>
+    </div>
 
     <!-- FOOTER -->
     <div class="container-fluid text-center bg-dark">

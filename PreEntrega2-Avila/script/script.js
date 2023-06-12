@@ -120,42 +120,93 @@ let nombre_usuario = document.getElementById ("nombre_usuario");
 nombre_usuario.value = "pepe" */
 
 let habitaciones = [
-    {nombre: "mixta", camas: 20 , precio: 10  }, 
-    {nombre: "femenina", camas: 10 , precio: 12 },
-    {nombre: "privada" , camas: 4 , precio: 50}
+    {
+        nombre: "mixta", camas: 20, precio: 10,
+        reservas: [{ fechaInicio: '07/07/2023', fechaFin: '07/10/2023', camas: 1 }]
+    },
+    { 
+        nombre: "femenina", camas: 10, precio: 12, 
+        reservas: [{ fechaInicio: '', fechaFin: '', camas: '' }] 
+    },
+    { 
+        nombre: "privada", camas: 4, precio: 50, 
+        reservas: [{ fechaInicio: '', fechaFin: '', camas: '' }] 
+    }
 ];
-let habitacionElegida 
 
-function asignarHab(e){
-    habitacionElegida = e.target.id;
-}
 
-//
+let habitacionElegida
+
+
 let carrito = []
 
 //con esta función vamos a comprobar la disponibilidad de la habitación
-function comprobarDisponibilidad(tipo, entrada, salida, camas){
-console.log(tipo, entrada, salida, camas)
+function comprobarDisponibilidad(tipo, entrada, salida, camas) {
+    let fechaEntrada = new Date(entrada)
+    let fechaSalida = new Date(salida)
+
+    for (habitacion of habitaciones){
+        const buscarFechas = habitacion.reservas.find(
+            function (habitacion) {
+                let fechaInicioReserva = new Date(habitacion.fechaInicio)
+                let fechaFinReserva = new Date(habitacion.fechaFin)
+                if (fechaEntrada >= fechaInicioReserva && fechaSalida <= fechaFinReserva){
+                    console.log(habitacion)
+                }
+            }
+        )};
+    }
+
+
+//funcion para crear un objeto de cada reserva
+function agregarHabitacionCarrito(tipo, entrada, salida, camas) {
+    let habitacion = {'tipoHab' : tipo, 'fechaEntrada' : entrada, 'fechaSalida' : salida, 'camas' : camas}
+    comprobarDisponibilidad(tipo, entrada, salida, camas)
+    carrito.push(habitacion);
 }
 
-//una vez comprobada, podemos agregar la reserva al carrito
-function agregarHabitacionCarrito(){
-}
 
-function realizarReserva (){
-    let reservaHabMixta = document.querySelector("#reservaMixta");
-    reservaHabMixta.addEventListener("click", asignarHab);
+function realizarReserva() {
+    let fechasCamas = document.getElementsByClassName("btnFechas");
+    console.log(fechasCamas);
+    //por cada boton de reserva de Habitacion despliego la seleccion de fechas y camas
+    for (i = 0; i < fechasCamas.length; i++) {
+        
+        fechasCamas[i].addEventListener("click", function(e) {
+            let formFechas = document.querySelector(".displayForm");
+            console.log(formFechas.style.display)
+            if (formFechas.style.display) {
+                formFechas.style.display = '';
+            }
+            else {
+                formFechas.style.display = "block";
+            }
+            habitacionElegida = e.target.id
+        })
+    }
+
+
+    //capto los nodos de fechas y personas
 
     let fechaEntrada = document.querySelector("#datepicker-entrada");
-    //pasar los nodos fechaSalida, cantCamas, y botonReserva a variables
-    let botonReserva = document.querySelector('#boton-reserva')
+    let fechaSalida = document.querySelector("#datepicker-salida");
+    let cantCamas = document.querySelector("#inlineFormSelectPref");
 
-    //una vez se aprieta el botón, comprobamos la disponibilida da la base
-    //de datos
-    botonReserva.addEventListener('click', (e) => {
+    let botonReserva = document.querySelector('#boton-reserva');
+
+    //creo un evento y llamo a la funcion agregar habitacion
+    botonReserva.addEventListener('click', function (e) {
         e.preventDefault()
-        const habDisponible = comprobarDisponibilidad(habitacionElegida, fechaEntrada.value, 0, 0)
+        agregarHabitacionCarrito(
+            habitacionElegida,
+            fechaEntrada.value,
+            fechaSalida.value,
+            cantCamas.value);
     })
+
+
+
+
 }
 
 realizarReserva();
