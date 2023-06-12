@@ -142,20 +142,20 @@ let carrito = []
 
 //con esta función vamos a comprobar la disponibilidad de la habitación
 function comprobarDisponibilidad(tipo, entrada, salida, camas) {
-    let fechaEntrada = new Date(entrada)
-    let fechaSalida = new Date(salida)
+    let fechaEntrada = new Date(entrada);
+    let fechaSalida = new Date(salida);
 
-    for (habitacion of habitaciones){
-        const buscarFechas = habitacion.reservas.find(
-            function (habitacion) {
-                let fechaInicioReserva = new Date(habitacion.fechaInicio)
-                let fechaFinReserva = new Date(habitacion.fechaFin)
-                if (fechaEntrada >= fechaInicioReserva && fechaSalida <= fechaFinReserva){
-                    console.log(habitacion)
-                }
+    for (let habitacion of habitaciones) {
+        const buscarFechas = habitacion.reservas.find(function (reserva) {
+            let fechaInicioReserva = new Date(reserva.fechaInicio);
+            let fechaFinReserva = new Date(reserva.fechaFin);
+            if (fechaEntrada >= fechaInicioReserva && fechaSalida <= fechaFinReserva) {
+                console.log(reserva);
             }
-        )};
+        });
     }
+}
+
 
 
 //funcion para crear un objeto de cada reserva
