@@ -119,60 +119,37 @@ console.log(titulo.innerText);
 let nombre_usuario = document.getElementById ("nombre_usuario");
 nombre_usuario.value = "pepe" */
 
+
 let habitaciones = [
     {
         nombre: "mixta", camas: 20, precio: 10,
-        reservas: [{ fechaInicio: '07/07/2023', fechaFin: '07/10/2023', camas: 1 }]
+        reservas: [{ fechaInicio: '', fechaFin: '', camas: 18 }]
     },
-    { 
-        nombre: "femenina", camas: 10, precio: 12, 
-        reservas: [{ fechaInicio: '', fechaFin: '', camas: '' }] 
+    {
+        nombre: "femenina", camas: 10, precio: 12,
+        reservas: [{ fechaInicio: '', fechaFin: '', camas: 10 }]
     },
-    { 
-        nombre: "privada", camas: 4, precio: 50, 
-        reservas: [{ fechaInicio: '', fechaFin: '', camas: '' }] 
+    {
+        nombre: "privada", camas: 4, precio: 50,
+        reservas: [{ fechaInicio: '', fechaFin: '', camas: 4 }]
     }
 ];
 
-
+//variables globales
 let habitacionElegida
 
 
 let carrito = []
 
-//con esta función vamos a comprobar la disponibilidad de la habitación
-function comprobarDisponibilidad(tipo, entrada, salida, camas) {
-    let fechaEntrada = new Date(entrada);
-    let fechaSalida = new Date(salida);
 
-    for (let habitacion of habitaciones) {
-        const buscarFechas = habitacion.reservas.find(function (reserva) {
-            let fechaInicioReserva = new Date(reserva.fechaInicio);
-            let fechaFinReserva = new Date(reserva.fechaFin);
-            if (fechaEntrada >= fechaInicioReserva && fechaSalida <= fechaFinReserva) {
-                console.log(reserva);
-            }
-        });
-    }
-}
-
-
-
-//funcion para crear un objeto de cada reserva
-function agregarHabitacionCarrito(tipo, entrada, salida, camas) {
-    let habitacion = {'tipoHab' : tipo, 'fechaEntrada' : entrada, 'fechaSalida' : salida, 'camas' : camas}
-    comprobarDisponibilidad(tipo, entrada, salida, camas)
-    carrito.push(habitacion);
-}
-
-
+//funcion iniciar el programa
 function realizarReserva() {
     let fechasCamas = document.getElementsByClassName("btnFechas");
     console.log(fechasCamas);
     //por cada boton de reserva de Habitacion despliego la seleccion de fechas y camas
     for (i = 0; i < fechasCamas.length; i++) {
-        
-        fechasCamas[i].addEventListener("click", function(e) {
+
+        fechasCamas[i].addEventListener("click", function (e) {
             let formFechas = document.querySelector(".displayForm");
             console.log(formFechas.style.display)
             if (formFechas.style.display) {
@@ -208,5 +185,86 @@ function realizarReserva() {
 
 
 }
+
+//funcion para crear un objeto de cada reserva
+function agregarHabitacionCarrito(tipo, entrada, salida, camas) {
+    let habitacion = { 'tipoHab': tipo, 'fechaEntrada': entrada, 'fechaSalida': salida, 'camas': camas}
+    let disponible = comprobarDisponibilidad(tipo, entrada, salida, camas);
+    if(disponible){
+        carrito.push(habitacion);
+        mostrarCarrito();
+    }
+    
+
+}
+
+//con esta función vamos a comprobar la disponibilidad de la habitación
+function comprobarDisponibilidad(tipo, entrada, salida, camas) {
+
+    let fechaEntrada = new Date(entrada);
+    let fechaSalida = new Date(salida);
+    let estaDisponible = true
+
+    const buscarHabitacion = habitaciones.find(function(habitacion) {
+        if (habitacion.nombre === tipo) {
+            const buscarFechas = habitacion.reservas.find(function (reserva) {
+                let fechaInicioReserva = new Date(reserva.fechaInicio);
+                let fechaFinReserva = new Date(reserva.fechaFin);
+                if (fechaEntrada >= fechaInicioReserva && fechaSalida <= fechaFinReserva) {
+                    let camasDisponibles = habitacion.camas - reserva.camas - camas;
+                    
+                    if (camasDisponibles >= 0) {
+                        estaDisponible = true
+                    }
+                    else {
+                        estaDisponible = false
+                        console.log(camasDisponibles)
+                    }
+                }
+            })
+        }
+
+    });
+return estaDisponible
+}
+
+//funcion para calcular el precio
+function calcularPrecio (reserva){
+    let precio = habitaciones.find(function(habitacion){
+        if(habitacion.nombre === reserva.tipoHab){
+            return habitacion.precio;
+        }
+    }).precio
+    
+    let fechaEntrada = new Date (reserva.fechaEntrada);
+    let fechaSalida = new Date (reserva.fechaSalida);
+    let totalDias = fechaSalida-fechaEntrada;
+    totalDias = (totalDias/(1000*60*60*24));
+    return precio * reserva.camas * totalDias;
+    
+}
+
+//funcion para mostrar carrito reserva
+function mostrarCarrito (){
+    let tabla = document.getElementById("tbody");
+    tabla.innerHTML = "";
+
+    for( let reserva of carrito ){
+
+        let fila = document.createElement("tr");
+        fila.innerHTML = `<td></td>
+                          <td><p>${reserva.tipoHab}</p></td>
+                          <td>${reserva.fechaEntrada} hasta ${reserva.fechaSalida}</td>
+                          <td>${reserva.camas}</td>
+                          <td>${calcularPrecio(reserva)}</td>
+                          <td><button class="btn btn-danger borrar_elemento">Borrar</button></td>`;
+        tabla.append(fila);
+
+    }
+}
+
+
+
+
 
 realizarReserva();
