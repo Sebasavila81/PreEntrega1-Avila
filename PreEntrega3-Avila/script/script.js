@@ -36,20 +36,22 @@ else {
 //Obtenemos el valor del dólar del día de hoy
 const URL = "https://www.dolarsi.com/api/api.php?type=valoresprincipales"
 
+// fetch, then y catch, para obtener el valor del dolar blue
 let dolar = fetch(URL)
 .then((res) => res.json() )
 .then ((data) => data.filter( (d) => d.casa.nombre=="Dolar Blue"))
 .catch((e) => console.log(e))
 
-//función asíncrona que se encarga de la conversión a dólar
-async function convertirDolar(){
+//función asíncrona que se encarga de la conversión a dólar, nos permite obtener solo el valor de venta, que es el que nos interesa
+async function ventaDolar(){
 let valorDolar = await dolar
 valorDolar = parseFloat(valorDolar[0].casa.venta)
 return valorDolar
 }
 
+//Se lo asignamos a una variable global
 let dolarVenta = 0
-convertirDolar().then(e => dolarVenta=e)
+ventaDolar().then(e => dolarVenta=e)
 
 //variable para guardar la habitación que elije el usuario
 let habitacionElegida;
@@ -59,11 +61,12 @@ let carrito = [];
 //traemos el carousel que se va a encargar de pasar cada etapa de la reserva
 let carousel = document.querySelector("#carouselReserva");
 
-//con esta función llamamos al toastify
+//con esta función llamamos al toastify, por defecto el tipo es de "error", pero si enviamos otro tipo lo va a tomar como éxito (success)
 
 function mostrarToastify(texto,tipo='fail'){
   Toastify({
     text: texto,
+    //usamos condicional ternario para la comprobación
     backgroundColor: tipo=='fail' ? "red" : "green",
     offset: {
       y: 50 
@@ -72,6 +75,7 @@ function mostrarToastify(texto,tipo='fail'){
   }).showToast();
 }
 
+//función para calcular la diferencia de días entre dos fechas
 function calcularDias(date1, date2){
 date1 = new Date(date1)
 date2 = new Date(date2)
@@ -80,10 +84,11 @@ date2 = new Date(date2)
  return Math.round(diffMs / calcDia)
 }
 
-function sumaRestaDia(date1, dias = 1){
+//función para sumar o restar días
+function sumaRestaDia(date1, dias){
   date1 = new Date(date1)
   date1.setDate(date1.getDate(date1) + dias)
-  return date1;
+  return date1.toLocaleString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric'});
 }
 
 //con esta función, pasamos a la siguiente parte de la reserva moviendo el slide del carousel
@@ -145,12 +150,11 @@ function realizarReserva() {
         );
         
       } else {
+    // en caso de que haya un error con las fechas, mostramos los toasts correspondientes
         mostrarToastify("Revise la fecha de salida.")
-        console.log("la fecha de salida no puede ser menor a la de entrada.");
       }
     } else {
       mostrarToastify("Es necesario definir las fechas.")
-      console.log("Es necesario definir las fechas.");
     }
   });
 
@@ -196,7 +200,6 @@ function agregarHabitacionCarrito(tipo, entrada, salida, camas) {
         }else {
         // si es mayor, entonces muestro que no tenemos tantas camas
         mostrarToastify("No hay tantas camas")
-        console.log("no hay tantas camas")
         }
         // paso la variable flag a true, porque la reserva ya existe en el carrito
         yaExiste = true;
@@ -204,13 +207,11 @@ function agregarHabitacionCarrito(tipo, entrada, salida, camas) {
     });
     //si la reserva no existe en el carrito, la creo
     if (!yaExiste) {
-      console.log(reserva.camas);
       carrito.push(habitacion);
       mostrarCarrito();
     }
   } else {
     mostrarToastify("Habitación no disponible.")
-    console.log("habitación no disponible");
   }
 }
 
@@ -232,14 +233,13 @@ function comprobarDisponibilidad(tipo, entrada, salida, camas) {
           fechaSalida <= fechaFinReserva
         ) {
         //vemos que tengamos camas disponibles
-          let camasDisponibles = habitacion.camas - reserva.camas - camas;
+          let camasDisponibles = parseInt(habitacion.camas) - parseInt(reserva.camas) - camas;
 
           if (camasDisponibles >= 0) {
             estaDisponible = true;
           } else {
             estaDisponible = false;
             mostrarToastify("No hay tantas camas. Disponibles: "+camasDisponibles)
-            console.log(camasDisponibles);
           }
         }
       });
@@ -285,8 +285,22 @@ function finalizarReserva() {
   mostrarToastify("Reserva finalizada","success")
 }
 else{
+  //en caso de que el carrito esté vacío, mostramos el mensaje, e impedimos que se avance con la reserva.
   mostrarToastify("El carrito se encuentra vacío.")
 }
+}
+
+//función para setear los precios del carrito
+
+function setearPrecios(idReserva,reserva){
+  let dias = document.querySelector(`#dias-${idReserva}`)
+  dias.innerHTML = calcularDias(reserva.fechaEntrada, reserva.fechaSalida)
+  let precioUSD = document.querySelector(`#precio-usd-${idReserva}`)
+  precioUSD.innerHTML = calcularPrecio(reserva).toLocaleString('en-us',{style: "currency",currency: "USD"})
+  let precioARS = document.querySelector(`#precio-ars-${idReserva}`)
+  precioARS.innerHTML = (dolarVenta*calcularPrecio(reserva)).toLocaleString('en-us',{style: "currency",currency: "ARS"})
+  let camas = document.querySelector(`#camas-${idReserva}`)
+  camas.innerHTML = reserva.camas
 }
 
 //funcion para mostrar carrito reserva
@@ -296,51 +310,70 @@ function mostrarCarrito() {
 
   //por cada resrva del carrito, creamos una fila
   for (let [index, reserva] of carrito.entries()) {
-    console.log(typeof(new Date(reserva.fechaEntrada)))
-    console.log(dolarVenta)
     let fila = document.createElement("tr");
+
+    //creamos la fila. Algunas observaciones:
+    //usamos calcularDias para mostrar los días en lugar de las fechas de entrada y salida. Agregamos un botón de + y de - para poder modificarlo sobre la marcha al momento de ver la reserva.
+    //usamos toLocalString para formatear los números y mostrarlos en moneda
     fila.innerHTML = `<td></td>
                           <td><p>${reserva.tipoHab}</p></td>
                           <td>
-                          <span class="input-group-btn">
-                          <button type="button" class="btn btn-default" id="btn-minus-${index}">
-                              <span class="glyphicon glyphicon-minus">-</span>
-                          </button>
-                          </span>
-                          <span id="dias-${index}">
-                          ${calcularDias(reserva.fechaEntrada, reserva.fechaSalida)}
-                          </span>
-                          <span class="input-group-btn">
-                          <button type="button" class="btn btn-default" id="btn-plus-${index}">
-                              <span class="glyphicon glyphicon-plus">+</span>
-                          </button>
-                          </span>
+                          <button type="button" class="btn btn-default link-primary" id="btn-minus-${index}"> - </button>
+                          <span id="dias-${index}"></span>
+                          <button type="button" class="btn btn-default link-primary" id="btn-plus-${index}"> + </button>
+
 
                           </td>
-                          <td>${reserva.camas}</td>
-                          <td>${calcularPrecio(reserva).toLocaleString('en-us',{style: "currency",currency: "USD"})}</td>
-                          <td>${(dolarVenta*calcularPrecio(reserva)).toLocaleString('en-us',{style: "currency",currency: "ARS"})}</td>
+                          <td>
+                          <button type="button" class="btn btn-default link-primary" id="btn-minus-camas-${index}"> - </button>
+                          <span id="camas-${index}">${reserva.camas}</span>
+                          <button type="button" class="btn btn-default link-primary" id="btn-plus-camas-${index}"> + </button>
+                          </td>
+                          
+                          <td><span id="precio-usd-${index}"></span></td>
+                          <td><span id="precio-ars-${index}"></span></td>
                           <td><button class="btn btn-danger borrarReserva">Borrar</button></td>`;
     tabla.append(fila);
-
+    //Cargamos los valores de cálculo:
+    setearPrecios(index,reserva)
+    //Agregamos los listeners a medida que creamos las filas
     let btnMinus = document.querySelector(`#btn-minus-${index}`);
     btnMinus.addEventListener('click',(e) => {
       if (calcularDias(reserva.fechaEntrada, reserva.fechaSalida)>1){
       reserva.fechaSalida = sumaRestaDia(reserva.fechaSalida,-1)
-      let dias = document.querySelector(`#dias-${index}`)
-      dias.innerHTML = calcularDias(reserva.fechaEntrada, reserva.fechaSalida)
+      setearPrecios(index,reserva)
       } else {
+    //Si intentamos restar más días de los posibles, mostramos un error.
         mostrarToastify("No puede restar más días.")
       }
     })
-
+    //Repetimos algo similar para la suma de días
     let btnPlus = document.querySelector(`#btn-plus-${index}`);
-    btnPlus.addEventListener('click',(e) => {
+      btnPlus.addEventListener('click',(e) => {
       reserva.fechaSalida = sumaRestaDia(reserva.fechaSalida,1)
-      let dias = document.querySelector(`#dias-${index}`)
-      dias.innerHTML = calcularDias(reserva.fechaEntrada, reserva.fechaSalida)
-
+      setearPrecios(index,reserva)
     })
+    
+    let btnCamasMinus = document.querySelector(`#btn-minus-camas-${index}`)
+    btnCamasMinus.addEventListener('click',(e) => {
+      if(parseInt(reserva.camas)>1){
+      reserva.camas=parseInt(reserva.camas)-1
+      setearPrecios(index,reserva)
+      reserva.camas = String(reserva.camas)
+    }
+      else{
+        mostrarToastify("No puede restar más camas.")
+      }
+    })
+
+    let btnCamasPlus = document.querySelector(`#btn-plus-camas-${index}`)
+    btnCamasPlus.addEventListener('click',(e) => {
+      reserva.camas=parseInt(reserva.camas)+1
+      setearPrecios(index,reserva)
+      reserva.camas = String(reserva.camas)
+    })
+    
+    
   }
 
   //traemos todos los botones de borrar (un array de botones)
@@ -364,7 +397,7 @@ function mostrarCarrito() {
       }
     });
   }
-
+  //Agregamos los listeners para finalizar la reserva y para poder volver para atrás
   let finalizar = document.getElementById("finalizar-reserva");
   finalizar.addEventListener("click", finalizarReserva);
   finalizar.style.display = "block";
