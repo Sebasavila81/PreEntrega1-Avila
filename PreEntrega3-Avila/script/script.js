@@ -33,6 +33,24 @@ else {
 
 //variables globales
 
+//Obtenemos el valor del dólar del día de hoy
+const URL = "https://www.dolarsi.com/api/api.php?type=valoresprincipales"
+
+let dolar = fetch(URL)
+.then((res) => res.json() )
+.then ((data) => data.filter( (d) => d.casa.nombre=="Dolar Blue"))
+.catch((e) => console.log(e))
+
+//función asíncrona que se encarga de la conversión a dólar
+async function convertirDolar(){
+let valorDolar = await dolar
+valorDolar = parseFloat(valorDolar[0].casa.venta)
+return valorDolar
+}
+
+let dolarVenta = 0
+convertirDolar().then(e => dolarVenta=e)
+
 //variable para guardar la habitación que elije el usuario
 let habitacionElegida;
 //definimos el carrito
@@ -40,6 +58,33 @@ let carrito = [];
 
 //traemos el carousel que se va a encargar de pasar cada etapa de la reserva
 let carousel = document.querySelector("#carouselReserva");
+
+//con esta función llamamos al toastify
+
+function mostrarToastify(texto,tipo='fail'){
+  Toastify({
+    text: texto,
+    backgroundColor: tipo=='fail' ? "red" : "green",
+    offset: {
+      y: 50 
+    },
+    position: "center"
+  }).showToast();
+}
+
+function calcularDias(date1, date2){
+date1 = new Date(date1)
+date2 = new Date(date2)
+ let calcDia = 1000 * 60 * 60 * 24;
+ let diffMs = Math.abs(date2 - date1)
+ return Math.round(diffMs / calcDia)
+}
+
+function sumaRestaDia(date1, dias = 1){
+  date1 = new Date(date1)
+  date1.setDate(date1.getDate(date1) + dias)
+  return date1;
+}
 
 //con esta función, pasamos a la siguiente parte de la reserva moviendo el slide del carousel
 function nextCarousel() {
@@ -70,17 +115,6 @@ function realizarReserva() {
     fechasCamas[i].addEventListener("click", function (e) {
       //movemos el carousel
       nextCarousel();
-
-      //esto quizás ya no es necesario 
-      /*
-      let formFechas = document.querySelector(".displayForm");
-      console.log(formFechas.style.display);
-      if (formFechas.style.display) {
-        formFechas.style.display = "";
-      } else {
-        formFechas.style.display = "block";
-      }
-      */
       habitacionElegida = e.target.id;
     });
   }
@@ -111,9 +145,11 @@ function realizarReserva() {
         );
         
       } else {
+        mostrarToastify("Revise la fecha de salida.")
         console.log("la fecha de salida no puede ser menor a la de entrada.");
       }
     } else {
+      mostrarToastify("Es necesario definir las fechas.")
       console.log("Es necesario definir las fechas.");
     }
   });
@@ -159,6 +195,7 @@ function agregarHabitacionCarrito(tipo, entrada, salida, camas) {
           mostrarCarrito();
         }else {
         // si es mayor, entonces muestro que no tenemos tantas camas
+        mostrarToastify("No hay tantas camas")
         console.log("no hay tantas camas")
         }
         // paso la variable flag a true, porque la reserva ya existe en el carrito
@@ -172,6 +209,7 @@ function agregarHabitacionCarrito(tipo, entrada, salida, camas) {
       mostrarCarrito();
     }
   } else {
+    mostrarToastify("Habitación no disponible.")
     console.log("habitación no disponible");
   }
 }
@@ -200,6 +238,7 @@ function comprobarDisponibilidad(tipo, entrada, salida, camas) {
             estaDisponible = true;
           } else {
             estaDisponible = false;
+            mostrarToastify("No hay tantas camas. Disponibles: "+camasDisponibles)
             console.log(camasDisponibles);
           }
         }
@@ -226,6 +265,7 @@ function calcularPrecio(reserva) {
 
 //función para finalizar la reserva
 function finalizarReserva() {
+  if (carrito.length>0){
     nextCarousel()
  //agrego las reservas del carrito a nuestra base de datos
   for (let reserva of carrito) {
@@ -242,6 +282,11 @@ function finalizarReserva() {
   //convertimos a json y guardamos en el localStorage
   let habitacionesJson = JSON.stringify(habitaciones);
   localStorage.setItem("habitaciones", habitacionesJson);
+  mostrarToastify("Reserva finalizada","success")
+}
+else{
+  mostrarToastify("El carrito se encuentra vacío.")
+}
 }
 
 //funcion para mostrar carrito reserva
@@ -250,17 +295,52 @@ function mostrarCarrito() {
   tabla.innerHTML = "";
 
   //por cada resrva del carrito, creamos una fila
-  for (let reserva of carrito) {
+  for (let [index, reserva] of carrito.entries()) {
+    console.log(typeof(new Date(reserva.fechaEntrada)))
+    console.log(dolarVenta)
     let fila = document.createElement("tr");
     fila.innerHTML = `<td></td>
                           <td><p>${reserva.tipoHab}</p></td>
-                          <td>${reserva.fechaEntrada} hasta ${
-      reserva.fechaSalida
-    }</td>
+                          <td>
+                          <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" id="btn-minus-${index}">
+                              <span class="glyphicon glyphicon-minus">-</span>
+                          </button>
+                          </span>
+                          <span id="dias-${index}">
+                          ${calcularDias(reserva.fechaEntrada, reserva.fechaSalida)}
+                          </span>
+                          <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" id="btn-plus-${index}">
+                              <span class="glyphicon glyphicon-plus">+</span>
+                          </button>
+                          </span>
+
+                          </td>
                           <td>${reserva.camas}</td>
-                          <td>${calcularPrecio(reserva)}</td>
+                          <td>${calcularPrecio(reserva).toLocaleString('en-us',{style: "currency",currency: "USD"})}</td>
+                          <td>${(dolarVenta*calcularPrecio(reserva)).toLocaleString('en-us',{style: "currency",currency: "ARS"})}</td>
                           <td><button class="btn btn-danger borrarReserva">Borrar</button></td>`;
     tabla.append(fila);
+
+    let btnMinus = document.querySelector(`#btn-minus-${index}`);
+    btnMinus.addEventListener('click',(e) => {
+      if (calcularDias(reserva.fechaEntrada, reserva.fechaSalida)>1){
+      reserva.fechaSalida = sumaRestaDia(reserva.fechaSalida,-1)
+      let dias = document.querySelector(`#dias-${index}`)
+      dias.innerHTML = calcularDias(reserva.fechaEntrada, reserva.fechaSalida)
+      } else {
+        mostrarToastify("No puede restar más días.")
+      }
+    })
+
+    let btnPlus = document.querySelector(`#btn-plus-${index}`);
+    btnPlus.addEventListener('click',(e) => {
+      reserva.fechaSalida = sumaRestaDia(reserva.fechaSalida,1)
+      let dias = document.querySelector(`#dias-${index}`)
+      dias.innerHTML = calcularDias(reserva.fechaEntrada, reserva.fechaSalida)
+
+    })
   }
 
   //traemos todos los botones de borrar (un array de botones)
@@ -276,8 +356,15 @@ function mostrarCarrito() {
       abuelo.remove();
       //eliminamos la reserva correspondiente del carrito
       carrito.splice(i, 1);
+      //mostramos el toast
+      mostrarToastify("Habitación eliminada de la reserva.",'success')
+      //si el carrito está vacío, mostramos el mensaje
+      if (carrito.length<1){
+        tabla.innerHTML=`<td colspan=7 style="text-align: center">Carrito vacío.</td>`
+      }
     });
   }
+
   let finalizar = document.getElementById("finalizar-reserva");
   finalizar.addEventListener("click", finalizarReserva);
   finalizar.style.display = "block";
