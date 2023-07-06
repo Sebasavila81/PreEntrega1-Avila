@@ -105,10 +105,13 @@ function nextCarousel() {
 function prevCarousel() {
   let itemActivo = carousel.querySelector(".carousel-item.active");
   let itemPrev = itemActivo.previousElementSibling;
+  console.log(itemPrev)
   if (itemPrev) {
     itemActivo.classList.remove("active");
     itemPrev.classList.add("active");
   }
+//Agregar acá un seguimiento de estado
+
 }
 
 //funcion iniciar el programa
@@ -140,6 +143,7 @@ function realizarReserva() {
     if (fechaEntrada.value && fechaSalida.value) {
     //y si eligió, me fijo que la fecha de la salida no sea menor o igual a la de la entrada
       if (new Date(fechaSalida.value) - new Date(fechaEntrada.value) > 0) {
+        if(comprobarDisponibilidad(habitacionElegida,fechaEntrada.value,fechaSalida.value,cantCamas.value)){
         nextCarousel();
 
         agregarHabitacionCarrito(
@@ -149,7 +153,8 @@ function realizarReserva() {
           cantCamas.value
         );
         
-      } else {
+      }
+    } else {
     // en caso de que haya un error con las fechas, mostramos los toasts correspondientes
         mostrarToastify("Revise la fecha de salida.")
       }
@@ -160,8 +165,10 @@ function realizarReserva() {
 
   //con este botón volvemos para atrás, si es necesario
   botonVolverHab.addEventListener("click", function(e){
-    e.preventDefault()
+    e.preventDefault()    
+    e.stopPropagation();
     prevCarousel()
+
   })
 }
 
@@ -233,7 +240,7 @@ function comprobarDisponibilidad(tipo, entrada, salida, camas) {
           fechaSalida <= fechaFinReserva
         ) {
         //vemos que tengamos camas disponibles
-          let camasDisponibles = parseInt(habitacion.camas) - parseInt(reserva.camas) - camas;
+          let camasDisponibles = parseInt(habitacion.camas) - parseInt(reserva.camas) - parseInt(camas);
 
           if (camasDisponibles >= 0) {
             estaDisponible = true;
@@ -242,7 +249,18 @@ function comprobarDisponibilidad(tipo, entrada, salida, camas) {
             mostrarToastify("No hay tantas camas. Disponibles: "+camasDisponibles)
           }
         }
-      });
+      }
+      );
+      //si no existen reservas, comprobamos que estén disponibles las camas en la hab.
+      if(!buscarFechas){
+        let camasDisponibles = parseInt(habitacion.camas) - parseInt(camas);
+        if (camasDisponibles>=0){
+          estaDisponible=true
+        } else {
+          estaDisponible = false;
+          mostrarToastify("No hay tantas camas. Disponibles: "+camasDisponibles)
+        }
+      }
     }
   });
   return estaDisponible;
@@ -291,18 +309,33 @@ else{
 }
 
 //función para setear los precios del carrito
-
 function setearPrecios(idReserva,reserva){
+//asignamos todos los campos dinámicos de valores a variables, así no repetimos código
   let dias = document.querySelector(`#dias-${idReserva}`)
+//debajo de cada elemento, colocamos el valor deseado. En este caso cantidad de días.
   dias.innerHTML = calcularDias(reserva.fechaEntrada, reserva.fechaSalida)
   let precioUSD = document.querySelector(`#precio-usd-${idReserva}`)
+//calculamos el precio en dólares
   precioUSD.innerHTML = calcularPrecio(reserva).toLocaleString('en-us',{style: "currency",currency: "USD"})
   let precioARS = document.querySelector(`#precio-ars-${idReserva}`)
+//el precio en pesos
   precioARS.innerHTML = (dolarVenta*calcularPrecio(reserva)).toLocaleString('en-us',{style: "currency",currency: "ARS"})
   let camas = document.querySelector(`#camas-${idReserva}`)
+//actualizamos la cantidad de camas
   camas.innerHTML = reserva.camas
+
 }
 
+
+//función para calcular el total del pago
+
+function calcularTotal(carrito){
+  let total = 0
+  for(reserva of carrito){
+    total = total + calcularPrecio(reserva)
+  }
+  return total.toLocaleString('en-us',{style: "currency",currency: "USD"})
+}
 //funcion para mostrar carrito reserva
 function mostrarCarrito() {
   let tabla = document.getElementById("tbody");
@@ -347,6 +380,7 @@ function mostrarCarrito() {
         mostrarToastify("No puede restar más días.")
       }
     })
+
     //Repetimos algo similar para la suma de días
     let btnPlus = document.querySelector(`#btn-plus-${index}`);
       btnPlus.addEventListener('click',(e) => {
@@ -354,6 +388,7 @@ function mostrarCarrito() {
       setearPrecios(index,reserva)
     })
     
+    //hacemos algo similar para restar camas
     let btnCamasMinus = document.querySelector(`#btn-minus-camas-${index}`)
     btnCamasMinus.addEventListener('click',(e) => {
       if(parseInt(reserva.camas)>1){
@@ -362,15 +397,20 @@ function mostrarCarrito() {
       reserva.camas = String(reserva.camas)
     }
       else{
+    //si tenemos menos a 1 cama, mostramos un error
         mostrarToastify("No puede restar más camas.")
       }
     })
 
+    //hacemos algo similar para el botón de sumar camas
     let btnCamasPlus = document.querySelector(`#btn-plus-camas-${index}`)
     btnCamasPlus.addEventListener('click',(e) => {
+    //antes de realizar la suma, comprobamos la disponibilidad de camas para esa reserva
+      if(comprobarDisponibilidad(reserva.tipoHab, reserva.fechaEntrada, reserva.fechaSalida, reserva.camas)){
       reserva.camas=parseInt(reserva.camas)+1
       setearPrecios(index,reserva)
       reserva.camas = String(reserva.camas)
+      }
     })
     
     
@@ -397,15 +437,34 @@ function mostrarCarrito() {
       }
     });
   }
-  //Agregamos los listeners para finalizar la reserva y para poder volver para atrás
-  let finalizar = document.getElementById("finalizar-reserva");
-  finalizar.addEventListener("click", finalizarReserva);
+
+    //Agregamos los listeners para finalizar la reserva y para poder volver para atrás
+  let finalizar = document.getElementById("pago-reserva");
+  finalizar.addEventListener("click", mostrarPago);
   finalizar.style.display = "block";
   const botonVolverFechas = document.getElementById('volver-reserva-fechas');
   botonVolverFechas.addEventListener("click", function(e){
     e.preventDefault()
     prevCarousel()
   })
+
+}
+
+function mostrarPago(){
+  if (carrito.length>0){
+    nextCarousel()
+  }
+  //Agregamos los listeners para finalizar la reserva y para poder volver para atrás
+  let finalizar = document.getElementById("finalizar-reserva");
+  finalizar.addEventListener("click", finalizarReserva);
+  finalizar.style.display = "block";
+  const botonVolverItems = document.getElementById('volver-carrito-fechas');
+  botonVolverItems.addEventListener("click", function(e){
+    e.preventDefault()
+    prevCarousel()
+  })
+  let montoTotal = document.getElementById('monto-pago')
+  montoTotal.innerHTML = calcularTotal(carrito)
 }
 
 // iniciamos el programa

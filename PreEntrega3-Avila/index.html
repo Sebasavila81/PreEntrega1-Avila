@@ -206,88 +206,165 @@
                     </div>
                     <!-- FORM para reserva -->
                     <div class="carousel-item">
-                        <div class="displayForm">
-                            <form target="_blank"
-                                class="d-flex justify-content-center mt-5 mb-5 row row-cols-lg-auto g-3 align-items-center">
-                                <div class="col-12">
-                                    <label class="visually-hidden" for="datepicker-entrada">ENTRADA</label>
-                                    <div class="input-group">
-                                        <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i></div>
-                                        <input type="text" class="form-control" id="datepicker-entrada"
-                                            placeholder="entrada">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <label class="visually-hidden" for="datepicker-salida">SALIDA</label>
-                                    <div class="input-group">
-                                        <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i></div>
-                                        <input type="text" class="form-control" id="datepicker-salida"
-                                            placeholder="salida">
-                                    </div>
-                                </div>
+                        <div class="card rounded-3">
+                            <div class="card-body">
+                                <h2 class="text-center">Fechas</h2>
+                                <div class="displayForm">
+                                    <form target="_blank"
+                                        class="d-flex justify-content-center mt-5 mb-5 row row-cols-lg-auto g-3 align-items-center">
+                                        <div class="col-12">
+                                            <label class="visually-hidden" for="datepicker-entrada">ENTRADA</label>
+                                            <div class="input-group">
+                                                <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i>
+                                                </div>
+                                                <input type="text" class="form-control" id="datepicker-entrada"
+                                                    placeholder="entrada">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="visually-hidden" for="datepicker-salida">SALIDA</label>
+                                            <div class="input-group">
+                                                <div class="input-group-text"><i class="fa-solid fa-calendar-days"></i>
+                                                </div>
+                                                <input type="text" class="form-control" id="datepicker-salida"
+                                                    placeholder="salida">
+                                            </div>
+                                        </div>
 
-                                <div class="col-12">
-                                    <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
-                                    <div class="input-group">
-                                        <div class="input-group-text"><i class="fa-solid fa-person"></i></div>
-                                        <select class="form-select" id="inlineFormSelectPref">
-                                            <option value="1"> 1 persona</option>
-                                            <option value="2">2 personas</option>
-                                            <option value="3">3 personas</option>
-                                            <option value="4">4 personas</option>
-                                            <option value="5">5 personas</option>
-                                            <option value="6">6 personas</option>
-                                            <option value="7">7 personas</option>
-                                        </select>
-                                    </div>
+                                        <div class="col-12">
+                                            <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+                                            <div class="input-group">
+                                                <div class="input-group-text"><i class="fa-solid fa-person"></i></div>
+                                                <select class="form-select" id="inlineFormSelectPref">
+                                                    <option value="1"> 1 persona</option>
+                                                    <option value="2">2 personas</option>
+                                                    <option value="3">3 personas</option>
+                                                    <option value="4">4 personas</option>
+                                                    <option value="5">5 personas</option>
+                                                    <option value="6">6 personas</option>
+                                                    <option value="7">7 personas</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 card-footer">
+                                            <div class="d-flex justify-content-between align-items-center pb-1">
+                                                <button type="submit" class="btn btn-primary"
+                                                    id="boton-reserva">RESERVAR</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    id="volver-reserva-habitaciones">Volver</button>
+                                            </div>
+
+                                        </div>
+                                    </form>
                                 </div>
-
-
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary" id="boton-reserva">RESERVAR</button>
-                                    <button type="submit" class="btn btn-primary"
-                                        id="volver-reserva-habitaciones">Volver</button>
-
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
 
 
                     <div class="carousel-item">
-                        <div class="container" id="reserva">
-                            <h2 class="text-center">Reserva</h2>
-                            <table class="table table-dark">
-                                <thead>
-                                    <tr>
-                                        <td></td>
-                                        <td>Habitacion</td>
-                                        <td>Fechas</td>
-                                        <td>Cantidad Camas</td>
-                                        <td>USD</td>
-                                        <td>ARS</td>
-                                        <td></td>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody">
+                        <div class="card rounded-3">
+                            <div class="container" id="reserva">
+                                <div class="card-body">
+                                    <h2 class="text-center">Reserva</h2>
+                                    <table class="table table-dark">
+                                        <thead>
+                                            <tr>
+                                                <td></td>
+                                                <td>Habitacion</td>
+                                                <td>Fechas</td>
+                                                <td>Cantidad Camas</td>
+                                                <td>USD</td>
+                                                <td>ARS</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody">
 
-                                </tbody>
-                            </table>
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary" id="finalizar-reserva">Finalizar</button>
-                                <button type="submit" class="btn btn-primary" id="volver-reserva-fechas">Volver</button>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between align-items-center pb-1">
+                                        <button type="submit" class="btn btn-primary"
+                                            id="pago-reserva">Finalizar</button>
+                                        <button type="submit" class="btn btn-primary"
+                                            id="volver-reserva-fechas">Volver</button>
 
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                <div class="carousel-item">
-                    <div class="card-body">
-                        <h5 class="card-title text-center fw-bold">¡Gracias por hacer tu reserva!</h5>
-                        <p class="card-text">
-                            En breves te estará llegando un email con toda la información de tu reserva.
-                        </p>
+                    <div class="carousel-item">
+                        <!-- Sección de pago -->
+                        <section>
+                            <div class="container py-5">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-md-8 col-lg-6 col-xl-4">
+                                        <div class="card rounded-3">
+                                            <div class="card-body mx-1 my-2">
+                                                <div class="d-flex align-items-center">
+                                                    <div>
+                                                        <i class="fab fa-cc-visa fa-4x text-black pe-3"></i>
+                                                    </div>
+                                                    <div>
+                                                        <p class="d-flex flex-column mb-0">
+                                                            <b>Apellido, Nombre</b><span class="small text-muted">****
+                                                                8880</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="pt-3">
+                                                    <div class="d-flex flex-row pb-3">
+                                                        <div class="rounded border border-primary border-2 d-flex w-100 p-3 align-items-center"
+                                                            style="background-color: rgba(18, 101, 241, 0.07);">
+                                                            <div class="d-flex align-items-center pe-3">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="radioNoLabelX" id="radioNoLabel11" value=""
+                                                                    aria-label="..." checked />
+                                                            </div>
+                                                            <div class="d-flex flex-column">
+                                                                <p class="mb-1 small text-primary">Monto total:</p>
+                                                                <h6 class="mb-0 text-primary" id="monto-pago">$8245</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex justify-content-between align-items-center pb-1">
+                                                    <button type="submit" class="btn btn-primary"
+                                                        id="finalizar-reserva">Finalizar</button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        id="volver-carrito-fechas">Volver</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </div>
+                    <div class="carousel-item">
+                        <section>
+                            <div class="container py-5">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-md-8 col-lg-6 col-xl-4">
+                                        <div class="card rounded-3">
+                                            <div class="card-body">
+                                                <h5 class="text-center fw-bold">¡Gracias por hacer tu reserva!</h5>
+                                                <p class="card-text">
+                                                    En breves te estará llegando un email con toda la información de tu
+                                                    reserva.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>
