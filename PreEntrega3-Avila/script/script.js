@@ -328,7 +328,6 @@ function setearPrecios(idReserva,reserva){
 
 
 //función para calcular el total del pago
-
 function calcularTotal(carrito){
   let total = 0
   for(reserva of carrito){
