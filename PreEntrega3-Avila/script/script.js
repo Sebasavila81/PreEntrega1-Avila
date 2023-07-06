@@ -227,7 +227,8 @@ function comprobarDisponibilidad(tipo, entrada, salida, camas) {
   let fechaEntrada = new Date(entrada);
   let fechaSalida = new Date(salida);
   let estaDisponible = true;
-
+  let camasDisponibles = 0
+  let existeReserva = false
   //busco la habitación
   const buscarHabitacion = habitaciones.find(function (habitacion) {
     if (habitacion.nombre === tipo) {
@@ -239,27 +240,31 @@ function comprobarDisponibilidad(tipo, entrada, salida, camas) {
           fechaEntrada >= fechaInicioReserva &&
           fechaSalida <= fechaFinReserva
         ) {
+          existeReserva = true
+          return reserva
+        }
+      }
+      );
+      //si no existen reservas, comprobamos que estén disponibles las camas en la hab.
+      if(!existeReserva){
+        camasDisponibles = parseInt(habitacion.camas) - parseInt(camas);
+        if (camasDisponibles>=0){
+          estaDisponible=true
+        } else {
+          estaDisponible = false;
+          mostrarToastify("No hay tantas camas. Disponibles: "+habitacion.camas)
+        }
+      }
+      else{
         //vemos que tengamos camas disponibles
-          let camasDisponibles = parseInt(habitacion.camas) - parseInt(reserva.camas) - parseInt(camas);
+          camasDisponibles = parseInt(habitacion.camas) - parseInt(buscarFechas.camas) - parseInt(camas);
 
           if (camasDisponibles >= 0) {
             estaDisponible = true;
           } else {
             estaDisponible = false;
-            mostrarToastify("No hay tantas camas. Disponibles: "+camasDisponibles)
+            mostrarToastify("No hay tantas camas. Disponibles: "+(parseInt(habitacion.camas) - parseInt(buscarFechas.camas) ))
           }
-        }
-      }
-      );
-      //si no existen reservas, comprobamos que estén disponibles las camas en la hab.
-      if(!buscarFechas){
-        let camasDisponibles = parseInt(habitacion.camas) - parseInt(camas);
-        if (camasDisponibles>=0){
-          estaDisponible=true
-        } else {
-          estaDisponible = false;
-          mostrarToastify("No hay tantas camas. Disponibles: "+camasDisponibles)
-        }
       }
     }
   });
@@ -404,6 +409,8 @@ function mostrarCarrito() {
     //hacemos algo similar para el botón de sumar camas
     let btnCamasPlus = document.querySelector(`#btn-plus-camas-${index}`)
     btnCamasPlus.addEventListener('click',(e) => {
+      e.preventDefault()
+      e.stopImmediatePropagation()
     //antes de realizar la suma, comprobamos la disponibilidad de camas para esa reserva
       if(comprobarDisponibilidad(reserva.tipoHab, reserva.fechaEntrada, reserva.fechaSalida, reserva.camas)){
       reserva.camas=parseInt(reserva.camas)+1
