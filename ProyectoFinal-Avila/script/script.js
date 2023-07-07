@@ -470,7 +470,7 @@ function mostrarPago(){
     prevCarousel()
   })
   let montoTotal = document.getElementById('monto-pago')
-  montoTotal.innerHTML = calcularTotal(carrito)
+  montoTotal.innerHTML = calcularTotal(carrito)+'(USD) / '+(dolarVenta*parseInt(calcularPrecio(reserva))).toLocaleString('en-us',{style: "currency",currency: "ARS"})+' (ARS)'
 }
 
 
